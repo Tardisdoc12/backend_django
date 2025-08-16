@@ -1,22 +1,17 @@
 ################################################################################
-# filename: urls.py
+# filename: view.py
 # Author: Jean Anquetil
 # Email: janquetil@e-vitech.com
-# Date: 13/08,2025
+# Date: 16/08,2025
 ################################################################################
 
-from django.urls import include, path
-from django.contrib import admin
-from django.urls import path
-from .view import csrf_token
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
 
 ################################################################################
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('events/', include('events.urls')),
-    path('csrf/',csrf_token)
-]
+def csrf_token(request):
+    return JsonResponse({"csrfToken": get_token(request)})
 
 ################################################################################
 # End of File

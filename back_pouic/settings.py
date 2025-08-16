@@ -59,7 +59,16 @@ MIDDLEWARE = [
 
 CSRF_TRUSTED_ORIGINS = os.getenv("ALLOWED_HOST").split(",")
 
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOWED_ORIGINS = os.getenv("ALLOWED_HOST").split(",")
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
 
 ROOT_URLCONF = 'back_pouic.urls'
 

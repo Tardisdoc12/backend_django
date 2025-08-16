@@ -5,7 +5,7 @@
 # Date: 13/08,2025
 ################################################################################
 
-from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import get_token
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Event, Inscrit, UserEvent
@@ -13,7 +13,6 @@ import json
 
 ################################################################################
 
-@csrf_exempt
 def list_events(request):
     inscrits = Inscrit.objects.all()
     seen=[]
@@ -32,18 +31,8 @@ def list_events(request):
             inscritsJson.append({**eventJson, "users":[]})
     return JsonResponse(inscritsJson, safe=False)
 
-# @csrf_exempt
-# def list_events(request):
-#     events = Event.objects.all().values()
-#     for event in events:
-#         users = UserEvent.objects.filter(inscrit__event_id=event["id"])
-#         users_list = [u.getJson() for u in users]
-#         event["users"] = users_list
-#     return JsonResponse(list(events), safe=False)
-
 ################################################################################
 
-@csrf_exempt
 def create_event(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -62,7 +51,6 @@ def create_event(request):
 
 ################################################################################
 
-@csrf_exempt
 def delete_event(request, event_id):
     if request.method == "DELETE":
         try:
@@ -75,7 +63,6 @@ def delete_event(request, event_id):
 
 ################################################################################
 
-@csrf_exempt
 def get_list_inscript(request, event_id):
     try:
         inscrits = Inscrit.objects.filter(event_id=event_id)
@@ -93,7 +80,6 @@ def get_list_inscript(request, event_id):
 
 ################################################################################
 
-@csrf_exempt
 def create_inscrit(request):
     if request.method == "POST":
         try:
