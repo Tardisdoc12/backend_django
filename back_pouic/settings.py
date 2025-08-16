@@ -11,16 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^3u9rc^3^y%3b*a6xdsmp6$bqrrq_%a^&c4(0bjgdxd34ftwl&'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -55,12 +57,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-]
+CSRF_TRUSTED_ORIGINS = os.getenv("ALLOWED_HOST").split(",")
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
 ]
 
 ROOT_URLCONF = 'back_pouic.urls'
@@ -88,12 +92,12 @@ WSGI_APPLICATION = 'back_pouic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mps_moto',       # Nom de ta base MySQL
-        'USER': 'jean',          # Ton utilisateur MySQL
-        'PASSWORD': 'admin123',# Ton mot de passe MySQL
-        'HOST': 'localhost',     # Serveur MySQL
-        'PORT': '3306',          # Port par défaut
+        'ENGINE': os.getenv("BDD_ENGINE"),
+        'NAME': os.getenv("BDD_NAME"),       # Nom de ta base MySQL
+        'USER': os.getenv("BDD_USER"),          # Ton utilisateur MySQL
+        'PASSWORD': os.getenv("BDD_PASSWORD"),# Ton mot de passe MySQL
+        'HOST': os.getenv("BDD_HOST"),     # Serveur MySQL
+        'PORT': os.getenv("BDD_PORT"),          # Port par défaut
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
