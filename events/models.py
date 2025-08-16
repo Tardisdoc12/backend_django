@@ -16,7 +16,7 @@ class Event(models.Model):
     description = models.TextField()
     place = models.CharField(max_length=200)
     category = models.CharField(max_length=100)
-    subscribe_places = models.PositiveIntegerField()
+    subscribe_places = models.IntegerField()
     nonsubscribe_places = models.PositiveIntegerField()
 
     def __str__(self):
