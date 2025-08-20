@@ -53,11 +53,20 @@ def get_users(request):
 ################################################################################
 
 def get_user(request,id):
+    auth_header = request.headers.get("Authorization")
+
+    headers = {}
+    if auth_header:
+        headers["Authorization"] = auth_header
+    if not auth_header:
+        return JsonResponse({"error": "Missing Authorization header"}, status=401)
+    
     response = requests.get(
         url+f"/{id}",
-        auth=(wp_user, wp_app_password),
+        headers=headers,
         verify=False
     )
+    
     answer = get_dict_for_front(response.json())
     return JsonResponse({"wordpress": answer})
     
@@ -80,13 +89,16 @@ def connect(request):
 ################################################################################
 
 def get_dict_for_front(user: dict):
-    return {
+    result = {
         "id":user["id"],
         "firstName":user["slug"].split("-")[0],
         "lastName": user["slug"].split("-")[-1],
         "telephone":user["telephone"],
         "moto":user["moto"]
     }
+    if user.get("email", None):
+        result["email"] = user["email"]
+    return result
 
 ################################################################################
 
