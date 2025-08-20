@@ -18,10 +18,10 @@ from django.conf import settings
 url = os.getenv("WP_ENDPOINT")
 wp_user = os.getenv("WP_USER")
 wp_app_password = os.getenv("WP_PSWD")
+jwt_url = os.getenv("JWT_ENDPOINT")
 
 ################################################################################
 
-@csrf_exempt
 def register_user(request):
     if request.method == "POST":
         body = json.loads(request.body)
@@ -41,7 +41,6 @@ def register_user(request):
 
 ################################################################################
 
-@csrf_exempt
 def get_users(request):
     response = requests.get(
         url,
@@ -50,6 +49,33 @@ def get_users(request):
     )
     answer = [get_dict_for_front(user) for user in response.json()]
     return JsonResponse({"wordpress":answer})
+
+################################################################################
+
+def get_user(request,id):
+    response = requests.get(
+        url+f"/{id}",
+        auth=(wp_user, wp_app_password),
+        verify=False
+    )
+    answer = get_dict_for_front(response.json())
+    return JsonResponse({"wordpress": answer})
+    
+
+################################################################################
+
+def connect(request):
+    body = json.loads(request.body)
+    response = requests.post(
+        jwt_url,
+        auth=(wp_user, wp_app_password),
+        json={
+            "username": body["username"],
+            "password": body["password"],
+        },
+        verify=False
+    )
+    return JsonResponse(response.json())
 
 ################################################################################
 
