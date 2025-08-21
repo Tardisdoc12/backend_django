@@ -84,7 +84,23 @@ def connect(request):
         },
         verify=False
     )
-    return JsonResponse(response.json())
+    data : dict = response.json()
+    token = data.get("token")
+
+    if token:
+        django_response = JsonResponse(data)
+        # 👉 on pose directement le cookie dans le navigateur du user
+        django_response.set_cookie(
+            "mps_moto",
+            token,
+            max_age=3600,
+            path="/",
+            secure=False,   # Mets True si tu utilises HTTPS
+            httponly=True
+        )
+        return django_response
+
+    return JsonResponse({"error": "No token"}, status=400)
 
 ################################################################################
 
