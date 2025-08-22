@@ -133,6 +133,7 @@ def create_wp_user(firstName : str, lastName : str, email, password, telephone, 
             "lastName": lastName,
             "telephone":telephone,
             "moto":moto,
+            "adherentNumber":""
         },
         verify=False  # si tu es en certificat auto-signé
     )
