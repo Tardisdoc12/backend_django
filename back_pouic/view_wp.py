@@ -114,6 +114,8 @@ def get_dict_for_front(user: dict):
     }
     if user.get("email", None):
         result["email"] = user["email"]
+    if user.get("roles", None):
+        result["roles"] = user["roles"]
     return result
 
 ################################################################################
@@ -128,7 +130,7 @@ def create_wp_user(firstName : str, lastName : str, email, password, telephone, 
             "username": username,
             "email": email,
             "password": password,
-            "roles": ["subscriber"],
+            "roles": ["nonabonne"],
             "firstName": firstName,
             "lastName": lastName,
             "telephone":telephone,
