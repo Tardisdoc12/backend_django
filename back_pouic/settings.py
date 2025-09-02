@@ -22,7 +22,7 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = ("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -97,11 +97,11 @@ WSGI_APPLICATION = 'back_pouic.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.getenv("BDD_ENGINE"),
-        'NAME': os.getenv("BDD_NAME"),       # Nom de ta base MySQL
-        'USER': os.getenv("BDD_USER"),          # Ton utilisateur MySQL
-        'PASSWORD': os.getenv("BDD_PASSWORD"),# Ton mot de passe MySQL
-        'HOST': os.getenv("BDD_HOST"),     # Serveur MySQL
-        'PORT': os.getenv("BDD_PORT"),          # Port par défaut
+        'NAME': os.getenv("BDD_NAME"),
+        'USER': os.getenv("BDD_USER"),
+        'PASSWORD': os.getenv("BDD_PASSWORD"),
+        'HOST': os.getenv("BDD_HOST"),
+        'PORT': os.getenv("BDD_PORT"),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
