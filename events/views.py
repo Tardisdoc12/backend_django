@@ -61,6 +61,28 @@ def delete_event(request, event_id):
             return JsonResponse({"error": "Event not found"}, status=404)
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
+
+################################################################################
+
+def update_event(request, event_id):
+    if request.method == "PUT":
+        try:
+            event = Event.objects.get(id=event_id)
+            data = json.loads(request.body)
+            event.title = data.get("title", event.title)
+            event.start_date = data.get("start_date", event.start_date)
+            event.end_date = data.get("end_date", event.end_date)
+            event.description = data.get("description", event.description)
+            event.place = data.get("place", event.place)
+            event.category = data.get("category", event.category)
+            event.subscribe_places = data.get("subscribe_places", event.subscribe_places)
+            event.nonsubscribe_places = data.get("nonsubscribe_places", event.nonsubscribe_places)
+            event.save()
+            return JsonResponse({"message": "Event updated"})
+        except Event.DoesNotExist:
+            return JsonResponse({"error": "Event not found"}, status=404)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
 ################################################################################
 
 def get_list_inscript(request, event_id):
