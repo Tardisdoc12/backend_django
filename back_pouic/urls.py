@@ -14,7 +14,6 @@ from .view_wp import register_user, get_users, connect, get_user
 ################################################################################
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('events/', include('events.urls')),
     path('csrf/', csrf_token),
     path('register/',register_user),
